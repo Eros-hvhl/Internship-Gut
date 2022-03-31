@@ -12,7 +12,7 @@ from sys import argv
 import pandas as pd
 import glob
 
-def merge_csv(file_list,outfile):
+def merge_csv(file_list): #finished
     if not isinstance(file_list, list):
         return("input is not a list")
     dflist = []
@@ -25,9 +25,24 @@ def merge_csv(file_list,outfile):
     merged = dflist[0]
     for index in range(len(dflist)-1):
         merged = pd.merge(merged, dflist[index+1],on = ['tax'],how='outer')
-    merged.to_csv(outfile + '.csv',index = False)
+    return merged
 
+def make_tax_table(pdDataFrame): # finished
+    try:
+        first_col = pdDataFrame.iloc[:, 0]
+    except:
+        first_col = pdDataFrame
+    finally:
+        tax = first_col[0:,].str.split(";",expand = True)
+        names = [x[0] for x in list(tax.iloc[0,:])] 
+        for coln in range(len(tax.columns)):
+            tax.iloc[:,coln]=tax.iloc[:,coln].str.replace(".=","",regex=True)
+        tax.columns = names
+        return tax
 
+def export_csv(pdDataFrame,outfile): # finished
+    pdDataFrame.to_csv(outfile + '.csv',index = False)
+    return None
 
 def main():
     """main function of this module
@@ -35,7 +50,10 @@ def main():
     path = argv[1]
     file_list = glob.glob(path + "/*tax.txt")
     outfile = argv[2]
-    merge_csv(file_list,outfile)
-
+    merged = merge_csv(file_list)
+    taxfile = make_tax_table(merged)
+    export_csv(merged, outfile)
+    export_csv(taxfile,"taxfile")
+    
 if __name__ == "__main__":
 	main()
