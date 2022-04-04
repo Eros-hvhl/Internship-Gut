@@ -15,12 +15,44 @@ import re
 
 
 def write_list(list_name,file_name):
+    """
+    Write list elements to lines in a txt file.
+
+    Parameters
+    ----------
+    list_name : List
+        List of lines to write.
+    file_name : Str
+        name and extension of desired outputfile.
+
+    Returns
+    -------
+    None.
+
+    """
     f = open(file_name, "w")
     for element in list_name:
         f.write(element + '\n')
     f.close()
 
 def parse_taxprofile(file):
+    """
+    Split BaseClear in tuple of metadata,taxonomic profiles and fasta's
+
+    Parameters
+    ----------
+    file : CSV file
+        BaseClear provided data, taxonomic profiles.
+    Returns
+    -------
+    metadata : List
+        Sample information.
+    tax_profile : List
+        Taxonomic profile.
+    fastadata : List
+        Fasta sequences.
+
+    """
     txt = open(file,"r").read()
     txtnofasta = txt.split('###')[0]
     metadata = txtnofasta.split('\n')[0:3]
