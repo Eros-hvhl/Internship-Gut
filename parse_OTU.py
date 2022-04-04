@@ -12,9 +12,21 @@ from sys import argv
 import pandas as pd
 import glob
 
-def merge_csv(file_list): #finished
-    if not isinstance(file_list, list):
-        return("input is not a list")
+def merge_csv(file_list):
+    """
+    merge list of TSV files into a single pandas DataFrame.
+
+    Parameters
+    ----------
+    file_list : List
+        List of TSV files seperated by '\t'.
+
+    Returns
+    -------
+    merged : DataFrame
+        DataFrame of the merged TSV files.
+        
+    """
     dflist = []
     for filename in file_list:
         sampleid = filename.replace(argv[1],"")
@@ -27,7 +39,21 @@ def merge_csv(file_list): #finished
         merged = pd.merge(merged, dflist[index+1],on = ['tax'],how='outer')
     return merged
 
-def make_tax_table(pdDataFrame): # finished
+def make_tax_table(pdDataFrame):
+    """
+    Make a taxonomic profile DataFrame of a merged DataFrame by 'merge_csv()'
+
+    Parameters
+    ----------
+    pdDataFrame : DataFrame
+        Pandas DataFrame made by merging BaseClear taxonomic profiles.
+
+    Returns
+    -------
+    tax : DataFrame
+        DataFrame of taxonomic profiles.
+
+    """
     try:
         first_col = pdDataFrame.iloc[:, 0]
     except:
@@ -40,7 +66,22 @@ def make_tax_table(pdDataFrame): # finished
         tax.columns = names
         return tax
 
-def export_csv(pdDataFrame,outfile): # finished
+def export_csv(pdDataFrame,outfile):
+    """
+    Write pandas DataFrame to CSV file.
+
+    Parameters
+    ----------
+    pdDataFrame : DataFrame
+        A pandas DataFrame to write to CSV.
+    outfile : str
+        Name of the output file, without extension.
+
+    Returns
+    -------
+    None.
+
+    """
     pdDataFrame.to_csv(outfile + '.csv',index = False)
     return None
 
