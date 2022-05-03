@@ -65,7 +65,7 @@ def main():
     """
     file_list = argv[1]
     for file in os.listdir(file_list):
-        file_name = re.split("_",os.path.basename(file))[0]
+        file_name = re.split("_taxonomic-paths-extended.txt",os.path.basename(file))[0]
         tempfile = parse_taxprofile(file_list + file)
         write_list(tempfile[0],file_name + '_metadata.txt')
         os.system('mv ' + file_name + '_metadata.txt'+' '+ argv[1])
