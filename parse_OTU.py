@@ -29,7 +29,7 @@ def merge_csv(file_list):
     """
     dflist = []
     for filename in file_list:
-        sampleid = filename.replace(argv[1],"")
+        sampleid = filename.replace(argv[1] + '/',"")
         sampleid = sampleid.replace('_tax.txt',"")
         dataframe = pd.read_csv(filename,sep='\t', index_col=None, header=0,
                                 names = ['tax',sampleid])
