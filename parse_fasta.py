@@ -35,7 +35,7 @@ def merge_fasta(file_list):
         fa = fa[1:-1]
         # list comp for every other 2 lists
         asv = [val[1:] for idx, val in enumerate(fa) if idx % 2 == 1]
-        taxid = [val[1:] for idx, val in enumerate(fa) if idx % 2 != 1]
+        taxid = [val for idx, val in enumerate(fa) if idx % 2 != 1]
         # initialize empty DataFrame
         dataframe = pd.DataFrame()
         dataframe['tax']=taxid
